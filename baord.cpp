@@ -109,21 +109,26 @@ int board::getGameValue () {
 //returens codes 1 = computer wins! 2 = Human wins! 3 = draw! 4 = not finish!
 int board::getGameStatus () {
   int draw = 0;
-
+    //Computer wins
     if( (boardLayout[0][0] == 1 && boardLayout[1][0] == 1 && boardLayout[2][0] ==1) || //top
         (boardLayout[0][0] == 1 && boardLayout[0][1] == 1 && boardLayout[0][2] ==1) || //left
         (boardLayout[0][2] == 1 && boardLayout[1][2] == 1 && boardLayout[2][2] ==1) || //buttom
         (boardLayout[2][2] == 1 && boardLayout[2][1] == 1 && boardLayout[2][0] ==1) || //right
+        (boardLayout[0][1] == 1 && boardLayout[1][1] == 1 && boardLayout[2][1] ==1) || //middel
+        (boardLayout[1][0] == 1 && boardLayout[1][1] == 1 && boardLayout[1][2] ==1) || //middel
         (boardLayout[0][0] == 1 && boardLayout[1][1] == 1 && boardLayout[2][2] ==1) || //cross
-        (boardLayout[0][2] == 1 && boardLayout[1][1] == 1 && boardLayout[0][2] ==1)    //cross
+        (boardLayout[0][2] == 1 && boardLayout[1][1] == 1 && boardLayout[2][0] ==1)    //cross
       ) return  1;
 
+    //Human wins
     if( (boardLayout[0][0] == 2 && boardLayout[1][0] == 2 && boardLayout[2][0] ==2) || //top
         (boardLayout[0][0] == 2 && boardLayout[0][1] == 2 && boardLayout[0][2] ==2) || //left
         (boardLayout[0][2] == 2 && boardLayout[1][2] == 2 && boardLayout[2][2] ==2) || //buttom
         (boardLayout[2][2] == 2 && boardLayout[2][1] == 2 && boardLayout[2][0] ==2) || //right
+        (boardLayout[0][1] == 2 && boardLayout[1][1] == 2 && boardLayout[2][1] ==2) || //middel
+        (boardLayout[1][0] == 2 && boardLayout[1][1] == 2 && boardLayout[1][2] ==2) || //middel
         (boardLayout[0][0] == 2 && boardLayout[1][1] == 2 && boardLayout[2][2] ==2) || //cross
-        (boardLayout[0][2] == 2 && boardLayout[1][1] == 2 && boardLayout[0][2] ==2)    //cross
+        (boardLayout[0][2] == 2 && boardLayout[1][1] == 2 && boardLayout[2][0] ==2)    //cross
       ) return  2;
 
       for (int x=0; x<3; x++) {

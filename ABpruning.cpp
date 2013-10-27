@@ -65,30 +65,15 @@ int ABpruning::AlphaBeta (board boardObj, int alphaSEND, int betaSEND, int nodeT
   stack<board> childrenStack;
   board tempBoard;
 
-  //cout << "Gamestatus: " << boardObj.getGameStatus() << "\n";
-  //boardObj.printBoard();
-
+  //Tjekker om vi er leave
   if(boardObj.getGameStatus() != 4) isLeaf = true;
   if(level == maxLevel) isLeaf = true;
 
-
-  //if(nodeType == 1) cout << "max node\n";
-  //if(nodeType == 2) cout << "min node\n";
-
-/*
-  if(nodeType == 1) cout << "max node level "<< level << " getGameValue " << boardObj.getGameValue() << " getGameStatus " << boardObj.getGameStatus()  << " alpha: " << alpha << " - beta " << beta << "\n";
-  if(nodeType == 2) cout << "min node level "<< level << " getGameValue " << boardObj.getGameValue() <<" getGameStatus " << boardObj.getGameStatus()  << " alpha: " << alpha << " - beta " << beta << "\n";
-  boardObj.printBoard();
-*/
-  //cout << "Gamestatus: " << boardObj.getGameStatus() << " - alpha: " << alpha << " - beta " << beta << "\n";
-
+  //Retunere static value
   if(boardObj.getGameStatus() == 1) return inf;
   if(boardObj.getGameStatus() == 2) return -inf; 
   if(boardObj.getGameStatus() == 3) return 0;
   if(isLeaf) {
-   
-   //cout << "getGameValue: " << boardObj.getGameValue()  << " getGameStatus: " << boardObj.getGameStatus()  << "\n";
-   //boardObj.printBoard();
    return boardObj.getGameValue();
   }
 
@@ -146,10 +131,6 @@ int main () {
   int x,y;
   int hX, hY;
 
-
- 
-
-
   while(tttBoard.getGameStatus() == 4){
       ABpruning pruning(&tttBoard);
       pruning.pruning (1, &x, &y);
@@ -177,30 +158,6 @@ int main () {
   default: cout << "What tha fuck!?\n";
       break;
   }
-  
-/*
-  //human
-  tttBoard.setValue(1,1,2);
-  tttBoard.setValue(2,0,2);
-  tttBoard.setValue(1,2,2);
-
-  //computer
-  tttBoard.setValue(0,2,1);
-  tttBoard.setValue(2,2,1);
-  //tttBoard.setValue(2,1,1);
-
-  
-  //tttBoard.NextFreeSpace(&x, &y);
-
-  cout << "initial board\n";
-  tttBoard.printBoard();
-  pruning.pruning (1, &x, &y);
-  tttBoard = board(pruning.getNextMoveBoard());
-  cout << "new board\n";
-  tttBoard.printBoard();
-  //cout << "x: " << x << " - y:" << y << "\n";
-*/
-  
   
   return 0;
 }

@@ -93,39 +93,26 @@ int ABpruning::AlphaBeta (board boardObj, int alphaSEND, int betaSEND, int nodeT
   }
 
 
-    if(turn==1) nextTurn = 2;
-    if(turn==2) nextTurn = 1;
+  //Skifter turen til næste level
+  if(turn==1) nextTurn = 2;
+  if(turn==2) nextTurn = 1;
 
-  
-  //Create Children stack
-  //childrenStack.push();
   createChildrenStack(boardObj, &childrenStack, turn);
-  //childrenStack.pop()
-  
-
 
   if(nodeType == 1){
     //MAX node
     while(alpha < beta && !childrenStack.empty()){ // && children stack not empty
       if  (childrenStack.empty()) break;
-      //if(level == 0 ) {
-        //cout << "childrenStack size: " << childrenStack.size()  << "\n";
-        //childrenStack.top().printBoard();
-      //}
-     //cout << "nextTurn:" << nextTurn << "\n";
       V=AlphaBeta(childrenStack.top(), alpha, beta, 2, level+1, maxLevel,  nextTurn);
       tempBoard = childrenStack.top();
       childrenStack.pop();
       if (V > alpha){
-        //cout << " !! LEVEL:" << level << " Min-NODE !!! V: " << V << " - beta " << beta << "\n";
         alpha = V;
         if(level == 0 ) {
-          //cout << " GOOOOODD!!!!!!! \n\n\n";
           nextMoveBoard = board(tempBoard);
         }
       } 
     }
-    //cout << "We are returning from max" << alpha << "\n";
     return alpha;
     
 
@@ -133,15 +120,12 @@ int ABpruning::AlphaBeta (board boardObj, int alphaSEND, int betaSEND, int nodeT
     //min node
     while(alpha < beta){ // && children stack not empty
       if  (childrenStack.empty()) break;
-      //cout << "childrenStack size: " << childrenStack.size()  << "\n";
       V=AlphaBeta(childrenStack.top(), alpha, beta, 1, level+1, maxLevel, nextTurn);
       childrenStack.pop();
-      //cout << " !! LEVEL:" << level << " Min-NODE !!! V: " << V << " - beta " << beta << "\n";
       if (V < beta){
         beta = V;
       }
     }
-    //cout << "We are returning from min" << beta << "\n";
     return beta;
   }
   cout << "We are returning 0 \n";
@@ -152,7 +136,7 @@ void ABpruning::pruning (int level, int *x, int *y) {
   board internalBoard =  board(*BoardPointer);
   
 
-  AlphaBeta(internalBoard, -inf, inf, 1, 0, 3, 1);
+  AlphaBeta(internalBoard, -inf, inf, 1, 0, 1, 1);
 
 }
 
@@ -163,19 +147,36 @@ int main () {
   int hX, hY;
 
 
-  ABpruning pruning(&tttBoard);
+ 
 
 
-  while(tttBoard.getGameStatus() != 4){
+  while(tttBoard.getGameStatus() == 4){
+      ABpruning pruning(&tttBoard);
       pruning.pruning (1, &x, &y);
-      tttBoard = board(pruning.getNextMoveBoard());
-      
-      cout << "Your turn\n";
-      cin >> hX >> hY;
-      tttBoard.setValue(hX, hY ,2);
-
+      tttBoard = pruning.getNextMoveBoard();
+      tttBoard.printBoard();
+      if (tttBoard.getGameStatus() == 4){
+        cout << "Your turn\n";
+        cin >> hX >> hY;
+        while(tttBoard.getValue(hX,hY) != 0 ){
+          cout << "Place taken\n";
+          cin >> hX >> hY;
+        }
+        tttBoard.setValue(hX, hY ,2);
+      }
   }
   
+  switch (tttBoard.getGameStatus())
+  {
+  case 1: cout << "COMPUTER WON!!\n";
+      break;
+  case 2: cout << "YOU WON!!\n";
+      break;
+  case 3: cout << "DRAW!!\n";
+      break;
+  default: cout << "What tha fuck!?\n";
+      break;
+  }
   
 /*
   //human
